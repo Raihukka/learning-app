@@ -1,3 +1,28 @@
+# Learning App
+
+## Application Structure
+
+### Pages and components
+
+- `pages/HomePage.tsx`: The home page.
+- `pages/EntriesPage.tsx`: Loads the learning entries from the backend and shows them in a list. Has a form for adding entries.
+- `components/LearningEntry.tsx`: A component that shows one learning entry. 
+- `App.tsx`: Chooses which page to show.
+
+### Layers
+
+- **React** (frontend): Displays the user interface, handles user inputs.
+- **Express** (backend): Handles HTTP requests from frontend, runs SQL queries, returns JSON.
+- **MariaDB** (Database): Stores learning entries.
+
+### `/entries` vs `GET /api/entries`
+
+`/entries` is a page in browser that is handled by React Router. `GET /api/entries` is an Express endpoint that returns the entries in database as JSON.
+
+### Why REST
+
+The app has one clear resource, learning entries, and simple operations that map directly to HTTP methods. `GET` reads entries and `POST` creates a new entry. This keeps the API simple and easy to understand.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
