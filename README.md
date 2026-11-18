@@ -25,7 +25,7 @@ The app has one clear resource, learning entries, and simple operations that map
 
 ## State Management
 
-- **Local state (`useState`)**: Form fields and messages are shown on the page. Only Entries page uses them, so they don't need to last.
+- **Local state (`useState`)**: Form fields and status messages. Only Entries page uses them, so they don't need to last.
 - **Shared state (Zustand)**: List of learning entries. It lives in one store, so any page or component can read the same list easily. `loadEntries()` fetches from `GET /api/entries` and calls `setEntries()` to replace the list.
 - **Persistent storage (MariaDB)**: Zustand only keeps data in browser memory, so the store gets emptied when page is refreshed. MariaDB is still needed because it stores the entries permanently. New entries are saved with `POST /api/entries`, and when the page is refreshed they are loaded back into the store with GET.
 
