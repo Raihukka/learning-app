@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx server.ts",
+    "test": "node --test validation.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],

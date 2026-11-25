@@ -36,10 +36,15 @@ function EntriesPage() {
 
         try {
             await saveEntry(newEntry);
-        } catch {
-            setMessage("Saving failed. Please try again.");
+        } catch (error) {
+            if (error instanceof TypeError) {
+                setMessage("Could not confirm the save. Check the connection and reload the list before trying again.");
+            } else {
+                setMessage(error instanceof Error ? error.message : "Saving failed.");
+            }
             return;
         }
+
 
 
         setTopic("");

@@ -1,4 +1,3 @@
-// src/api/entries.ts
 import type { LearningEntryData } from "../types/LearningEntryData";
 import { useLearningStore } from "../store/useLearningStore";
 
@@ -16,5 +15,11 @@ export async function saveEntry(entry: Omit<LearningEntryData, "id">) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(entry),
   });
-  if (!response.ok) throw new Error("Failed to save entry");
+  if (!response.ok) {
+    throw new Error(
+      response.status === 400
+        ? "Could not save the entry. Check your input."
+        : "The server could not save the entry. Please try again."
+    );
+  }
 }

@@ -29,6 +29,36 @@ The app has one clear resource, learning entries, and simple operations that map
 - **Shared state (Zustand)**: List of learning entries. It lives in one store, so any page or component can read the same list easily. `loadEntries()` fetches from `GET /api/entries` and calls `setEntries()` to replace the list.
 - **Persistent storage (MariaDB)**: Zustand only keeps data in browser memory, so the store gets emptied when page is refreshed. MariaDB is still needed because it stores the entries permanently. New entries are saved with `POST /api/entries`, and when the page is refreshed they are loaded back into the store with GET.
 
+## Testing and Reliability
+
+### Validation
+
+The backend validates every POST independently. `backend/validation.ts` contains `isValidConfidence` and `isNonBlankString` (used for topic and learned). The POST route uses these same functions. Invalid input returns HTTP 400. SQL uses parameterised queries (`?`), and `.env` is not committed.
+
+### Automated unit tests
+Run from the `backend` folder:
+
+    npm test        # runs: node --test validation.test.ts
+
+| Test | Result |
+|------|--------|
+| confidence must be an integer from 1 to 5 | pass |
+| topic must be a non-blank string | pass |
+
+To check that the test really tests something, I temporarily changed `<= 5` to `<= 10`.
+The confidence test failed on `isValidConfidence(6)` (expected false, got true).
+I restored the rule, and both tests pass again.
+
+### Manual tests
+Invalid requests were sent directly to Express with `curl.exe`, bypassing React.
+
+| Input or action | Expected | Actual | Pass/Fail |
+|---|---|---|---|
+| Empty topic (curl) | HTTP 400, no database write | 400 `Invalid learning entry`, entry count unchanged (7) | Pass |
+| Confidence = 100 (curl) | HTTP 400, no database write | 400 `Invalid learning entry`, entry count unchanged (7) | Pass |
+| Missing `learned` (curl) | HTTP 400, no database write | 400 `Invalid learning entry`, entry count unchanged (7) | Pass |
+| Stop Express and submit a valid form | Useful error, unchanged entry list | "Could not confirm the save…" shown, list unchanged; after restart a valid entry saved | Pass |
+
 
 # React + TypeScript + Vite
 

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -9,6 +10,8 @@
     "noEmit": true
   },
   "include": [
-    "server.ts"
+    "server.ts",
+    "validation.ts",
+    "validation.test.ts"
   ]
 }
